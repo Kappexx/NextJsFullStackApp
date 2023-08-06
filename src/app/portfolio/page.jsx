@@ -1,12 +1,27 @@
 
 import styles from './page.module.css'
-
+import Link from 'next/link';
 
 
 const Portfolio = () => {
   return ( 
-    <div>
-      Portfolio
+    <div className={styles.conteiner}>
+      <h1 className={styles.selectTitle}>Choose a gallery</h1>
+      <div className={styles.items}>
+
+      <Link className={styles.item}  href={"/portfolio/ilustration"}>
+      <span className={styles.title}>Ilustrations</span>
+      </Link>
+
+      <Link className={styles.item} href={"/portfolio/websites"}>
+      <span className={styles.title}>Websites</span>
+      </Link>
+
+      <Link className={styles.item}  href={"/portfolio/applications"}>
+      <span className={styles.title}>Applications</span>
+      </Link>
+
+      </div>
     </div>
    );
 }
