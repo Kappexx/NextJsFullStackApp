@@ -1,20 +1,36 @@
 
 import styles from "./page.module.css"
 import Image from "next/image";
+import { notFound } from 'next/navigation';
 
-const Blogpost = () => {
+async function getData(id){
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    next: { revalidate: 10 }
+  })
+
+  if(!res.ok){
+
+    return notFound()
+  }
+
+  return res.json()
+}
+
+const Blogpost  = async ({params}) => {
+  const data = await getData(params.id)
   return ( 
     <div className={styles.conteiner}>
       <div className={styles.top}>
         <div className={styles.info}>
           <h1 className={styles.title}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa dolore velit assumenda
+            {data.title}
           </h1>
           <p  className={styles.desc}>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo praesentium natus cupiditate, rerum ipsam iusto modi nam molestias blanditiis incidunt. Fugiat vel nisi dolorem laboriosam earum eligendi odit, nostrum corrupti.
           </p>
           <div className={styles.author}>
             <Image 
+            
               src={"https://render.fineartamerica.com/images/rendered/default/shower-curtain/images/artworkimages/medium/1/girl-with-umbrella-and-falling-feathers-johan-swanepoel.jpg?&targetx=0&targety=-86&imagewidth=787&imageheight=991&modelwidth=787&modelheight=819&backgroundcolor=606261&orientation=0"}
               alt=""
               width={40}

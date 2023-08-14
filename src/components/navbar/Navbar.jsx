@@ -7,6 +7,7 @@ import Link from "next/link";
 
 
 import { links } from "./constant";
+import DarkNodeToggle from '../DarkModeTogle/DarkModeToggle';
 
 const Navbar = () => {
   return ( 
@@ -16,6 +17,7 @@ const Navbar = () => {
       >girgunamia
       </Link>
       <div className={styles.links}>
+        <DarkNodeToggle />
         {
           links.map((link)=>{
             return(
