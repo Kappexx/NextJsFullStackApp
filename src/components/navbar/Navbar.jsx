@@ -8,8 +8,11 @@ import Link from "next/link";
 
 import { links } from "./constant";
 import DarkNodeToggle from '../DarkModeTogle/DarkModeToggle';
+import { signOut, useSession } from 'next-auth/react';
 
 const Navbar = () => {
+  const session = useSession();
+
   return ( 
     <div className={styles.conteiner}>
       <Link href={"/"} 
@@ -25,14 +28,13 @@ const Navbar = () => {
             )
           })
         }
-        <button 
+        {session.status === "authenticated" && (<button 
         className={styles.logout}
-        onClick={() => {
-          console.log("logged out");
-        }}  
+        onClick={signOut}  
         >
           Logout
-        </button>
+        </button>)}
+        
       </div>
     </div>
    );

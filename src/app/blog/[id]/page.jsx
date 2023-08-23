@@ -4,16 +4,26 @@ import Image from "next/image";
 import { notFound } from 'next/navigation';
 
 async function getData(id){
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
-    next: { revalidate: 10 }
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+    next: { cache: "no cache" }
   })
 
-  if(!res.ok){
 
+  if(!res.ok){
+    console.log("fffffff");
     return notFound()
   }
 
   return res.json()
+}
+
+export async function generateMetadata({params}){
+
+  const post = await getData(params.id)
+  return{
+    title: post.title,
+    description: post.desc
+  }
 }
 
 const Blogpost  = async ({params}) => {
@@ -26,22 +36,22 @@ const Blogpost  = async ({params}) => {
             {data.title}
           </h1>
           <p  className={styles.desc}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo praesentium natus cupiditate, rerum ipsam iusto modi nam molestias blanditiis incidunt. Fugiat vel nisi dolorem laboriosam earum eligendi odit, nostrum corrupti.
+            {data.desc}
           </p>
           <div className={styles.author}>
             <Image 
             
-              src={"https://render.fineartamerica.com/images/rendered/default/shower-curtain/images/artworkimages/medium/1/girl-with-umbrella-and-falling-feathers-johan-swanepoel.jpg?&targetx=0&targety=-86&imagewidth=787&imageheight=991&modelwidth=787&modelheight=819&backgroundcolor=606261&orientation=0"}
+              src={data.img}
               alt=""
               width={40}
               height={40}
             />
-            <span className={styles.username}>Giorgi Kapanadze</span>
+            <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageConteiner}>
         <Image 
-              src={"https://render.fineartamerica.com/images/rendered/default/shower-curtain/images/artworkimages/medium/1/girl-with-umbrella-and-falling-feathers-johan-swanepoel.jpg?&targetx=0&targety=-86&imagewidth=787&imageheight=991&modelwidth=787&modelheight=819&backgroundcolor=606261&orientation=0"}
+              src={data.img}
               alt=""
              width={400}
              height={400}
@@ -51,17 +61,7 @@ const Blogpost  = async ({params}) => {
       </div>
       <div className={styles.content}>
         <p className={styles.text}>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quam tempore magnam odio corporis fuga. Labore consequatur atque nobis repellendus iusto quae ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          corporis fuga. Labore consequatur atque nobis 
-          <br></br>
-          repellendus iusto quae ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          corporis fuga. Labore consequatur atque nobis repellendus iusto quae 
-          <br></br>
-          ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          corporis fuga. Labore consequatur atque nobis repellendus iusto quae ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
-          consequatur atque nobis repellendus iusto quae ipsum dolorum sapiente praesentium, minima quis, eligendi fugiat amet.
+          {data.content}
         </p>
       </div>
     </div>

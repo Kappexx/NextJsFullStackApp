@@ -3,6 +3,10 @@ import Button from '@/components/Button/Button';
 import styles from './page.module.css'
 import Image from 'next/image';
 
+export const metadata ={
+  title: "Contact Gio",
+  description: "this is contact page"
+}
 
 const Contact = () => {
   return ( 

@@ -3,33 +3,42 @@ import Button from "@/components/Button/Button";
 import styles from "./page.module.css"
 import Image from "next/image";
 
+import { items } from "./data";
+import { notFound } from "next/navigation";
+
+const getData = (cat) =>{
+  const data = items[cat]
+
+  if(data){
+    return data
+  }
+  return notFound()
+}
+
 const Category = ({params}) => {
 
-  console.log(params);
+  const data = getData(params.category)
+  
+  
+
   return ( 
     <div className={styles.conteiner}> 
     <h1 className={styles.catTitle}>{params.category}</h1>
-    <div className={styles.item}>
+    {data.map((item)=>(
+      <div className={styles.item}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Test</h1>
-        <p className={styles.desc}>Desc</p>
+        <h1 className={styles.title}>{item.title}</h1>
+        <p className={styles.desc}>{item.desc}</p>
         <Button url={"#"}  text={"See More"}/>
       </div>
       <div className={styles.imgConteiner}>
-        <Image width={500} height={500} className={styles.img}  src={"https://render.fineartamerica.com/images/rendered/default/shower-curtain/images/artworkimages/medium/1/girl-with-umbrella-and-falling-feathers-johan-swanepoel.jpg?&targetx=0&targety=-86&imagewidth=787&imageheight=991&modelwidth=787&modelheight=819&backgroundcolor=606261&orientation=0"} alt="" />
+        <Image width={500} height={500} className={styles.img}  src={item.image} alt="" />
       </div>
     </div>
+    ))}
     
-    <div className={styles.item}>
-      <div className={styles.content}>
-        <h1 className={styles.title}>Test</h1>
-        <p className={styles.desc}>Desc</p>
-        <Button url={"#"}  text={"See More"}/>
-      </div>
-      <div className={styles.imgConteiner}>
-        <Image width={500} height={500} className={styles.img}  src={"https://render.fineartamerica.com/images/rendered/default/shower-curtain/images/artworkimages/medium/1/girl-with-umbrella-and-falling-feathers-johan-swanepoel.jpg?&targetx=0&targety=-86&imagewidth=787&imageheight=991&modelwidth=787&modelheight=819&backgroundcolor=606261&orientation=0"} alt="" />
-      </div>
-    </div>
+    
+   
       
     </div> 
   );
